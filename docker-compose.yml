@@ -5,14 +5,16 @@ services:
     networks:
       - app-network
     ports:
-      - "3000:3000"
+      # - "3000:3000"
+      - "3000"
 
   search:
     build: './search'
     networks:
       - app-network
     ports:
-      - "3001:3000"
+      # - "3001:3000"
+      - "3000"
     depends_on:
       - db
     environment:
@@ -23,7 +25,8 @@ services:
     networks:
       - app-network
     ports:
-      - "3002:3000"
+      # - "3002:3000"
+      - "3000"
     depends_on:
       - db
     environment:
@@ -34,7 +37,8 @@ services:
     networks:
       - app-network
     ports:
-      - "3003:3000"
+      # - "3003:3000"
+      - "3000"
     depends_on:
       - db
     environment:
@@ -45,7 +49,10 @@ services:
     networks:
       - app-network
     ports:
-      - "27017:27017"
+      # - "27017:27017"
+      - "27017"
+    volumes:
+      - dbdata:/data/db
 
   nginx:
     image: nginx:latest
@@ -65,3 +72,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  dbdata:
