@@ -2,43 +2,55 @@ version: '3'
 services:
   web:
     build: './web'
+    networks:
+      - app-network
     ports:
       - "3000:3000"
 
   search:
     build: './search'
+    networks:
+      - app-network
     ports:
       - "3001:3000"
-    depends_on: 
+    depends_on:
       - db
     environment:
       - MONGO_DB_URI=mongodb://db/microservices
 
   books:
     build: './books'
+    networks:
+      - app-network
     ports:
       - "3002:3000"
-    depends_on: 
+    depends_on:
       - db
     environment:
       - MONGO_DB_URI=mongodb://db/microservices
 
   videos:
     build: './videos'
+    networks:
+      - app-network
     ports:
       - "3003:3000"
-    depends_on: 
+    depends_on:
       - db
     environment:
       - MONGO_DB_URI=mongodb://db/microservices
-  
+
   db:
     image: mongo
+    networks:
+      - app-network
     ports:
       - "27017:27017"
 
   nginx:
     image: nginx:latest
+    networks:
+      - app-network
     ports:
       - "8080:8080"
     volumes:
@@ -49,3 +61,7 @@ services:
       - books
       - search
       - videos
+
+networks:
+  app-network:
+    driver: bridge
